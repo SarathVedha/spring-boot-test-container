@@ -30,6 +30,7 @@ public class EmployeeRepositoryTests {
     public void setup() {
 
         employee = Employee.builder().name("Test").age(12).email("test@gmail.com").build();
+        employeeRepository.deleteAll();
     }
 
     // JUnit test using assertJ for save employee operation
