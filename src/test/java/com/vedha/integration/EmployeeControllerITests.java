@@ -23,7 +23,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // its load full application context
 @AutoConfigureMockMvc
-public class EmployeeControllerITests {
+//@Testcontainers
+public class EmployeeControllerITests extends AbstractContainerBaseTest {
+
+    // Docker Mysql Test Container
+//    @Container
+//    private static final MySQLContainer MY_SQL_CONTAINER = new MySQLContainer("mysql:latest");
+
+    // Dynamically setting the property values
+//    @DynamicPropertySource
+//    public static void dynamicProperty(DynamicPropertyRegistry dynamicPropertyRegistry) {
+//
+//        dynamicPropertyRegistry.add("spring.datasource.url", MY_SQL_CONTAINER::getJdbcUrl);
+//        dynamicPropertyRegistry.add("spring.datasource.username", MY_SQL_CONTAINER::getUsername);
+//        dynamicPropertyRegistry.add("spring.datasource.password", MY_SQL_CONTAINER::getPassword);
+//
+//    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -39,6 +54,7 @@ public class EmployeeControllerITests {
     @BeforeEach
     public void setup() {
 
+        System.out.println("Container Image: " + MY_SQL_CONTAINER.getImage());
         employeeRepository.deleteAll();
     }
 

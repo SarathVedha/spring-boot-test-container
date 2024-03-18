@@ -4,6 +4,7 @@ import com.vedha.entity.Employee;
 //import org.assertj.core.api.Assertions;
 import static org.assertj.core.api.Assertions.assertThat; // imported Class method as static
 
+import com.vedha.integration.AbstractContainerBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) // To Use MySql Or Oracle
-public class EmployeeRepositoryTests {
+public class EmployeeRepositoryTests extends AbstractContainerBaseTest {
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -29,6 +30,7 @@ public class EmployeeRepositoryTests {
     @BeforeEach
     public void setup() {
 
+        System.out.println("Container Image: " + MY_SQL_CONTAINER.getImage());
         employee = Employee.builder().name("Test").age(12).email("test@gmail.com").build();
         employeeRepository.deleteAll();
     }
