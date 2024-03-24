@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest // Loads Only Web Beans in IOC container
+@WebMvcTest(controllers = EmployeeController.class) // Loads Only Web Beans in IOC container, it's not mandatory to add controller class in the annotation
 class EmployeeControllerTests {
 
     @Autowired
