@@ -4,7 +4,11 @@ import com.vedha.entity.Employee;
 import com.vedha.exception.EmployeeException;
 import com.vedha.repository.EmployeeRepository;
 import com.vedha.service.EmployeeService;
+import com.vedha.utill.SortField;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,5 +51,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployeeByIdNoReturn(Long employeeId) {
         employeeRepository.deleteById(employeeId);
+    }
+
+    @Override
+    public Page<Employee> getAllEmployeePaginated(int pageNumber, int pageSize, Sort.Direction sortDirection, SortField sortField) {
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(sortDirection, sortField.getFiledValue()));
+        return employeeRepository.findAll(pageRequest);
     }
 }

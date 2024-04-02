@@ -2,10 +2,13 @@ package com.vedha.controller;
 
 import com.vedha.entity.Employee;
 import com.vedha.service.EmployeeService;
+import com.vedha.utill.SortField;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -59,12 +62,22 @@ public class EmployeeController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-
     @Operation(summary = "Delete Employee By Id", description = "Delete Employee By Id")
     @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
     @DeleteMapping(value = "/deleteById", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, Object>> deleteEmployeeById(@RequestParam("employeeId") Long employeeId) {
 
         return ResponseEntity.ok(Map.of("deleteCount", employeeService.deleteEmployeeById(employeeId)));
+    }
+
+    @Operation(summary = "Get All Employees Paginated", description = "Get All Employees Paginated")
+    @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
+    @GetMapping(value = "/getAllPaginated", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<Employee>> getAllEmployeePaginated(@RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+                                                                  @RequestParam(value = "pageSize", defaultValue = "2") int pageSize,
+                                                                  @RequestParam(value = "sortDirection", defaultValue = "ASC") Sort.Direction sortDirection,
+                                                                  @RequestParam(value = "sortField", defaultValue = "ID") SortField sortField) {
+
+        return ResponseEntity.ok(employeeService.getAllEmployeePaginated(pageNumber, pageSize, sortDirection, sortField));
     }
 }
